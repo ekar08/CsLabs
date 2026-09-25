@@ -1,9 +1,31 @@
-﻿namespace sem_1_lab_02_server_config;
+﻿using System.Reflection.Metadata;
+
+namespace sem_1_lab_02_server_config;
 
 class Program
 {
-    static void Main(string[] args)
+    public static void Main()
     {
-        Console.WriteLine("Hello, World!");
+        Console.Write("Начинаем анализ сервера для запуска...\nВведите пароль администратора для продолжения действий (придумайте): ");
+        string password_admin = Console.ReadLine();
+
+        Console.Write("\nРежимы игры:\n#1 Сам за себя\n#2 Командный бой\n#3 Дуэль\nВыберите режим игры: ");
+        string tmp_game_mode = Console.ReadLine();
+
+        int max_pl = 50;
+        int min_pl_solo = 3;
+        int min_pl_team = 4;
+        int count_pl_duel = 2;
+
+        Console.Write("\nКол-во игроков, желающих зайти на сервер: ");
+        string tmp_count_pl = Console.ReadLine();
+        int count_pl = Convert.ToInt32(tmp_count_pl);
+
+        /*
+        if (tmp_game_mode == "1")
+        {
+            
+        } */
     }
+
 }
