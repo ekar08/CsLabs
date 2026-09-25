@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection.Metadata;
 
 namespace sem_1_lab_02_server_config;
@@ -26,7 +27,11 @@ class Program
         if (tmp_game_mode == "2")
         {
             result = Team_mode(count_pl);
-        } 
+        }
+        if (tmp_game_mode == "3")
+        {
+            result = Duel_mode(count_pl);
+        }  
 
         Console.WriteLine(result);
     }
@@ -39,15 +44,15 @@ class Program
 
         if (buff_count_pl<min_pl_solo)
         {
-            result_solo = "Сервер запустить невозможно, слишком мало игроков, подождите еще";
+            result_solo = "Слишком мало игроков, подождите еще\n###Запуск невозможен";
         }
         else if (buff_count_pl>max_pl)
         {
-            result_solo = "Слишком много игроков, часть из них уйдет в ожидание след раунда\nВведите код админа";
+            result_solo = "Слишком много игроков, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
         }
         else
         {
-            result_solo = "Сервер можно запускать";
+            result_solo = "###Сервер готов к запуску";
         }
         return result_solo;
     }
@@ -68,11 +73,11 @@ class Program
 
         if (buff_count_pl < min_pl_in_team)
         {
-            result_team = "Сервер запустить невозможно, слишком мало игроков, подождите еще";
+            result_team = "Слишком мало игроков, подождите еще\n###Запуск невозможен";
         }
         else if (buff_count_pl>max_pl)
         {
-            result_team = "Слишком много игроков, часть из них уйдет в ожидание след раунда\nВведите код админа";
+            result_team = "Слишком много игроков, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
         }
         
         do
@@ -88,11 +93,11 @@ class Program
 
         if (count_team*pl_in_team!=buff_count_pl)
         {
-            result_team = "Не все игроки распределены по командам";
+            result_team = "Не все игроки распределены по командам, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
         }
         else
         {
-            result_team = "Сервер можно запускать";
+            result_team = "###Сервер готов к запуску";
         }
 
         return result_team;
@@ -107,16 +112,18 @@ class Program
 
         if (buff_count_pl<min_pl_duel)
         {
-            result_duel = "Сервер запустить невозможно, слишком мало игроков, подождите еще";
+            result_duel = "Слишком мало игроков, подождите еще\n###Запуск невозможен";
         }
         else if (buff_count_pl>max_pl || buff_count_pl%pl_duel!=0)
         {
-            result_duel = "Слишком много игроков, часть из них уйдет в ожидание след раунда\nВведите код админа";
+            result_duel = "Слишком много игроков, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
         }
         else
         {
-            result_duel = "Сервер можно запускать";
+            result_duel = "###Сервер готов к запуску";
         }
         return result_duel;
     }
+
+
 }
