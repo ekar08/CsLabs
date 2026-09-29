@@ -9,7 +9,7 @@ class Program
     public static void Main()
     {
         Console.Write("Начинаем анализ сервера для запуска...\nВведите пароль администратора для продолжения действий (придумайте): ");
-        string password_admin = Console.ReadLine();
+        string orig_password = Console.ReadLine();
 
         Console.Write("\nРежимы игры:\n#1 Сам за себя\n#2 Командный бой\n#3 Дуэль\nВыберите режим игры: ");
         string tmp_game_mode = Console.ReadLine();
@@ -22,33 +22,53 @@ class Program
         
         if (tmp_game_mode == "1")
         {
-            result = Solo_mode(count_pl);
+            result = Solo_mode(count_pl, orig_password);
         } 
         if (tmp_game_mode == "2")
         {
-            result = Team_mode(count_pl);
+            result = Team_mode(count_pl, orig_password);
         }
         if (tmp_game_mode == "3")
         {
-            result = Duel_mode(count_pl);
+            result = Duel_mode(count_pl, orig_password);
         }  
 
         Console.WriteLine(result);
     }
 
-    public static string Solo_mode(int buff_count_pl)
+    public static bool Admin_Pass(string buff_user_password, string buff_admin_password)
+    {
+        if (buff_user_password == buff_admin_password)
+            return true;
+        
+        return false;
+    }
+
+    public static string Solo_mode(int buff_count_pl, string admin_password)
     {
         string result_solo="";
         int max_pl = 50;
         int min_pl_solo = 3;
-
+        string user_password;
+        
         if (buff_count_pl<min_pl_solo)
         {
             result_solo = "Слишком мало игроков, подождите еще\n###Запуск невозможен";
         }
+        
         else if (buff_count_pl>max_pl)
         {
-            result_solo = "Слишком много игроков, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
+            Console.Write("Слишком много игроков, часть из них уйдет в ожидание след раунда\nВведите пароль для подтверждения:");
+            user_password = Console.ReadLine();
+            if (Admin_Pass(user_password, admin_password)==true)
+            {
+                result_solo = "###Сервер запущен с предупреждением";
+            }
+            else
+            {
+                result_solo = "###Пароль неверный. Сервер не запущен";
+            }
+            
         }
         else
         {
@@ -57,7 +77,7 @@ class Program
         return result_solo;
     }
 
-    public static string Team_mode(int buff_count_pl)
+    public static string Team_mode(int buff_count_pl, string admin_password)
     {
         string result_team="";
         int max_pl = 50;
@@ -77,7 +97,7 @@ class Program
         }
         else if (buff_count_pl>max_pl)
         {
-            result_team = "Слишком много игроков, часть из них уйдет в ожидание след раунда\n###Сервер запущен с предупреждением";
+            result_team = "###Сервер запущен с предупреждением";
         }
         
         do
@@ -103,7 +123,7 @@ class Program
         return result_team;
     }
 
-    public static string Duel_mode(int buff_count_pl)
+    public static string Duel_mode(int buff_count_pl, string admin_password)
     {
         string result_duel="";
         int max_pl = 50;
