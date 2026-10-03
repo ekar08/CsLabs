@@ -6,17 +6,17 @@ class Program
     {
         Console.WriteLine("Начинаем вести отчет");
         string name_ivent = Name_Ivent();
-        DateTime date_ivent = Date_Ivent();
+        DateTime date_start_ivent = Date_Start_Ivent();
+        DateTime date_end_ivent = Date_End_Ivent();
         string count_players = Count_players();
         string winner = Winner();
-        string length = Length();
         string prize_fund = Prize_Fund();
 
         Console.WriteLine(name_ivent);
-        Console.WriteLine(date_ivent);
+        Console.WriteLine(date_start_ivent);
+        Console.WriteLine(date_end_ivent);
         Console.WriteLine(count_players);
         Console.WriteLine(winner);
-        Console.WriteLine(length);
         Console.WriteLine(count_players);
         Console.WriteLine(prize_fund);
     }
@@ -33,13 +33,27 @@ class Program
         return $"Событие называется «{name_ivent}»";
     }
 
-    static DateTime Date_Ivent()
+    static DateTime Date_Start_Ivent()
     {
         Console.WriteLine("Заполним дату проведения события.");
-        Console.Write("Введите дату (DD.MM.YY): ");
+        Console.Write("Введите дату начала (DD.MM.YY): ");
         string date_DMY = Console.ReadLine();
 
-        Console.Write("Введите время (hh:mm:ss): ");
+        Console.Write("Введите время начала (hh:mm:ss): ");
+        string date_hms = Console.ReadLine();
+
+        DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
+
+        return date_all;
+    }
+
+    static DateTime Date_End_Ivent()
+    {
+        Console.WriteLine("Заполним дату проведения события.");
+        Console.Write("Введите дату окончания (DD.MM.YY): ");
+        string date_DMY = Console.ReadLine();
+
+        Console.Write("Введите время окончания (hh:mm:ss): ");
         string date_hms = Console.ReadLine();
 
         DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
@@ -73,10 +87,7 @@ class Program
         return $"Победил {winner}";
     }
 
-    static string Length()
-    {
-        return "0";
-    }
+    
 
     static string Prize_Fund()
     {
