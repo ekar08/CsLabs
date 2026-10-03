@@ -6,7 +6,7 @@ class Program
     {
         Console.WriteLine("Начинаем вести отчет");
         string name_ivent = Name_Ivent();
-        string date_ivent = Date_Ivent();
+        DateTime date_ivent = Date_Ivent();
         string count_players = Count_players();
         string winner = Winner();
         string length = Length();
@@ -23,7 +23,7 @@ class Program
 
     static string Name_Ivent()
     {
-        Console.Write("Название события: ");
+        Console.Write("Введите название события: ");
         string name_ivent = Console.ReadLine();
 
         if (name_ivent.Trim() == "")
@@ -33,14 +33,23 @@ class Program
         return $"Событие называется «{name_ivent}»";
     }
 
-    static string Date_Ivent()
+    static DateTime Date_Ivent()
     {
-        return "0";
+        Console.WriteLine("Заполним дату проведения события.");
+        Console.Write("Введите дату (DD.MM.YY): ");
+        string date_DMY = Console.ReadLine();
+
+        Console.Write("Введите время (hh:mm:ss): ");
+        string date_hms = Console.ReadLine();
+
+        DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
+
+        return date_all;
     }
 
     static string Count_players()
     {
-        Console.Write("Количество игроков: ");
+        Console.Write("Введите количество игроков: ");
         string count_pl = Console.ReadLine();
 
         if (count_pl.Trim() == "")
@@ -53,7 +62,7 @@ class Program
 
     static string Winner()
     {
-        Console.Write("Победителем стал: ");
+        Console.Write("Введите имя победителя: ");
         string winner = Console.ReadLine();
 
         if (winner.Trim() == "")
@@ -71,7 +80,7 @@ class Program
 
     static string Prize_Fund()
     {
-        Console.Write("Призовой фонд: ");
+        Console.Write("Введите призовой фонд: ");
         string prize_fund = Console.ReadLine();
 
         if (prize_fund.Trim() == "")
@@ -81,5 +90,4 @@ class Program
         return $"Призовой фонд составил {prize_fund}";
     }
 
-    
 }
