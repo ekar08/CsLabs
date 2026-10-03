@@ -5,7 +5,9 @@
             "name": "Debug Project",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/IGNOR/Date time/Date time.csproj"
+
+            "projectPath": "${workspaceFolder}/sem-1-lab-03-report-generator/sem-1-lab-03-report-generator.csproj"
+
         }
     ]
 }
