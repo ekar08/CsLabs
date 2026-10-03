@@ -5,21 +5,21 @@ class Program
     public static void Main()
     {
         Console.WriteLine("Начинаем вести отчет");
-        //string name_ivent = Name_Ivent();
+        string name_ivent = Name_Ivent();
         string date_start_ivent = Date_Start_Ivent();
-        //string date_end_ivent = Date_End_Ivent();
-        //string count_players = Count_players();
-        //string winner = Winner();
-        //string prize_fund = Prize_Fund();
+        string date_end_ivent = Date_End_Ivent();
+        string count_players = Count_players();
+        string winner = Winner();
+        string prize_fund = Prize_Fund();
 
         Console.WriteLine("\n\n\n\nОтчет о последнем событии в Discord");
         Console.WriteLine("===================================");
-        //Console.WriteLine(name_ivent);
+        Console.WriteLine(name_ivent);
         Console.Write(date_start_ivent);
-        //Console.WriteLine(date_end_ivent);
-        //Console.WriteLine(count_players);
-        //Console.WriteLine(winner);
-        //Console.WriteLine(prize_fund);
+        Console.WriteLine(date_end_ivent);
+        Console.WriteLine(count_players);
+        Console.WriteLine(winner);
+        Console.WriteLine(prize_fund);
     }
 
     static string Name_Ivent()
@@ -78,13 +78,38 @@ class Program
         Console.Write("Введите дату окончания (DD.MM.YY): ");
         string date_DMY = Console.ReadLine();
 
+        string date_DMYhms = "";
+
+        if (date_DMY.Trim() != "")
+        {
+            date_DMYhms += date_DMY;
+        }
+
         Console.Write("Введите время окончания (hh:mm:ss): ");
         string date_hms = Console.ReadLine();
 
-        DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
+        if (date_hms.Trim() != "")
+        {   
+            if (date_DMYhms!="")
+            {
+                date_DMYhms+=" ";
+            }
+            date_DMYhms += date_hms;
+        }
 
-        string date = Convert.ToString(date_all);
-        return $"и продолжалась до {date}. Мероприятие подарило участникам немало ярких моментов";
+
+
+        if (date_DMYhms.Trim() == "")
+        {
+            return "";
+        }
+        else
+        {
+            DateTime date_all = Convert.ToDateTime(date_DMYhms);
+            string date = Convert.ToString(date_all);
+            return $"и продолжалась до {date}. Мероприятие подарило участникам немало ярких моментов";
+        }
+        
     }
 
     static string Count_players()
