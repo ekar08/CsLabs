@@ -5,20 +5,21 @@ class Program
     public static void Main()
     {
         Console.WriteLine("Начинаем вести отчет");
-        string name_ivent = Name_Ivent();
-        DateTime date_start_ivent = Date_Start_Ivent();
-        DateTime date_end_ivent = Date_End_Ivent();
-        string count_players = Count_players();
-        string winner = Winner();
-        string prize_fund = Prize_Fund();
+        //string name_ivent = Name_Ivent();
+        string date_start_ivent = Date_Start_Ivent();
+        //string date_end_ivent = Date_End_Ivent();
+        //string count_players = Count_players();
+        //string winner = Winner();
+        //string prize_fund = Prize_Fund();
 
-        Console.WriteLine(name_ivent);
-        Console.WriteLine(date_start_ivent);
-        Console.WriteLine(date_end_ivent);
-        Console.WriteLine(count_players);
-        Console.WriteLine(winner);
-        Console.WriteLine(count_players);
-        Console.WriteLine(prize_fund);
+        Console.WriteLine("\n\n\n\nОтчет о последнем событии в Discord");
+        Console.WriteLine("===================================");
+        //Console.WriteLine(name_ivent);
+        Console.Write(date_start_ivent);
+        //Console.WriteLine(date_end_ivent);
+        //Console.WriteLine(count_players);
+        //Console.WriteLine(winner);
+        //Console.WriteLine(prize_fund);
     }
 
     static string Name_Ivent()
@@ -33,23 +34,47 @@ class Program
         return $"Недавно прошло событие «{name_ivent}», собравшее участников Discord-сообщества.";
     }
 
-    static DateTime Date_Start_Ivent()
+    static string Date_Start_Ivent()
     {
         Console.WriteLine("Заполним дату проведения события.");
         Console.Write("Введите дату начала (DD.MM.YY): ");
         string date_DMY = Console.ReadLine();
 
+        string date_DMYhms = "";
+
+        if (date_DMY.Trim() != "")
+        {
+            date_DMYhms += date_DMY;
+        }
+
         Console.Write("Введите время начала (hh:mm:ss): ");
         string date_hms = Console.ReadLine();
 
-        DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
+        if (date_hms.Trim() != "")
+        {   
+            if (date_DMYhms!="")
+            {
+                date_DMYhms+=" ";
+            }
+            date_DMYhms += date_hms;
+        }
 
-        return date_all;
+
+
+        if (date_DMYhms.Trim() == "")
+        {
+            return "Встреча состоялась совсем недавно и оставила после себя приятные впечатления.";
+        }
+        else
+        {
+            DateTime date_all = Convert.ToDateTime(date_DMYhms);
+            string date = Convert.ToString(date_all);
+            return $"Встреча состоялась {date} ";
+        }
     }
 
-    static DateTime Date_End_Ivent()
+    static string Date_End_Ivent()
     {
-        Console.WriteLine("Заполним дату проведения события.");
         Console.Write("Введите дату окончания (DD.MM.YY): ");
         string date_DMY = Console.ReadLine();
 
@@ -58,7 +83,8 @@ class Program
 
         DateTime date_all = Convert.ToDateTime(date_DMY+" "+date_hms);
 
-        return date_all;
+        string date = Convert.ToString(date_all);
+        return $"и продолжалась до {date}. Мероприятие подарило участникам немало ярких моментов";
     }
 
     static string Count_players()
