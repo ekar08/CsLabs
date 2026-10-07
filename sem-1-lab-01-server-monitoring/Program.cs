@@ -4,8 +4,7 @@ namespace Lab_01;
 
 class Program
 {
-    // Есть одна проблемка.. я сижу на линуксе и путь к файлу написала в файловой системе линукс Т-Т
-    static void Main(string[] args)
+        static void Main(string[] args)
     {
         string path_to_data = "../../../data.txt"; //путь к файлу
         File.AppendAllText(path_to_data,"");
