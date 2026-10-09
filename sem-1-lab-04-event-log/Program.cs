@@ -7,7 +7,7 @@ class Program
 
     static string LogEntry_to_String(LogEntry log)
     {
-        string result = $"{log.Timestamp} {log.Level}{log.Category} {log.Message}";
+        string result = $"{log.Timestamp} [{log.Level}][{log.Category}] {log.Message}";
 
         return result;
     }
@@ -46,7 +46,7 @@ class Program
                 
                 logEntry.Timestamp = Convert.ToDateTime(log.Substring(0,23));
 
-                if (log[i]=='[') // записываем индкс открытой скобки
+                if (log[i]=='[') // записываем индекс открытой скобки
                 {
                     ind_square_start = i;
                     count_squarebr++;
@@ -54,12 +54,12 @@ class Program
 
                 if (count_squarebr == 1 && log[i]==']')
                 {
-                    logEntry.Level = log.Substring(ind_square_start,i-ind_square_start+1);
+                    logEntry.Level = log.Substring(ind_square_start+1,i-ind_square_start-1);
                 }
 
                 if (count_squarebr == 2 && log[i]==']')
                 {
-                    logEntry.Category = log.Substring(ind_square_start,i-ind_square_start+1);
+                    logEntry.Category = log.Substring(ind_square_start+1,i-ind_square_start-1);
                 }
 
                 if (count_squarebr == 2 && count_space == 3 && log[i]==' ')
@@ -75,9 +75,9 @@ class Program
 
         
         //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        string test = "[Warning]";
+        string test = "Server";
 
-        string[] Test = FilterByLevel(logEntries_array, test);
+        string[] Test = FilterByCategory(logEntries_array, test);
 
         foreach (string log in Test)
             Console.WriteLine(log);
@@ -116,7 +116,15 @@ class Program
 
     static string[] FilterByCategory(LogEntry[] entries, string category)
     {
-        return [];
+        List<string> filter_list = new List<string>();
+
+        foreach (LogEntry log in entries)
+            if(log.Category == category)
+                filter_list.Add(LogEntry_to_String(log));
+
+        string[] filter_result = filter_list.ToArray();
+            
+        return filter_result;
     }
 
     static string[] Search(LogEntry[] entries, string text)
