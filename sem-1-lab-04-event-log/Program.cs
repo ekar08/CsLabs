@@ -75,13 +75,13 @@ class Program
 
         
         //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        string test = "Warning";
+        //string test = "Warning";
 
         //string[] Test = Search(logEntries_array, test);
 
-        int Testt = CountByLevel(logEntries_array, test);
-        Console.WriteLine(Testt);
-
+        //int Testt = CountByLevel(logEntries_array, test);
+        //Console.WriteLine(Testt);
+        Console.WriteLine(GetServerStatus(logEntries_array));
         //foreach (string log in Test)
         //    Console.WriteLine(log);
     }
@@ -91,70 +91,85 @@ class Program
         return lines;
     }
 
-    static string[] FilterByDate(LogEntry[] entries, DateTime date)
+    static LogEntry[] FilterByDate(LogEntry[] entries, DateTime date)
     {
-        List<string> filter_list = new List<string>();
+        List<LogEntry> filter_list = new List<LogEntry>();
 
         foreach (LogEntry log in entries)
             if(log.Timestamp.Date == date.Date)
-                filter_list.Add(LogEntry_to_String(log));
+                filter_list.Add(log);
 
-        string[] filter_result = filter_list.ToArray();
+        LogEntry[] filter_result = filter_list.ToArray();
             
         return filter_result;
     }
 
-    static string[] FilterByLevel(LogEntry[] entries, string level)
+    static LogEntry[] FilterByLevel(LogEntry[] entries, string level)
     {
-        List<string> filter_list = new List<string>();
+        List<LogEntry> filter_list = new List<LogEntry>();
 
         foreach (LogEntry log in entries)
             if(log.Level == level)
-                filter_list.Add(LogEntry_to_String(log));
+                filter_list.Add(log);
 
-        string[] filter_result = filter_list.ToArray();
+        LogEntry[] filter_result = filter_list.ToArray();
             
         return filter_result;
     }
 
-    static string[] FilterByCategory(LogEntry[] entries, string category)
+    static LogEntry[] FilterByCategory(LogEntry[] entries, string category)
     {
-        List<string> filter_list = new List<string>();
+        List<LogEntry> filter_list = new List<LogEntry>();
 
         foreach (LogEntry log in entries)
             if(log.Category == category)
-                filter_list.Add(LogEntry_to_String(log));
+                filter_list.Add(log);
 
-        string[] filter_result = filter_list.ToArray();
+        LogEntry[] filter_result = filter_list.ToArray();
             
         return filter_result;
     }
 
-    static string[] Search(LogEntry[] entries, string text)
+    static LogEntry[] Search(LogEntry[] entries, string text)
     {
-        List<string> filter_list = new List<string>();
+        List<LogEntry> filter_list = new List<LogEntry>();
 
         foreach (LogEntry log in entries)
         {
             string message = log.Message.ToLower();
             string text_low = text.ToLower();
             if (message.Contains(text_low))
-                filter_list.Add(LogEntry_to_String(log));
+                filter_list.Add(log);
         }
-        string[] filter_result = filter_list.ToArray();
+        LogEntry[] filter_result = filter_list.ToArray();
             
         return filter_result;
     }
 
     static int CountByLevel(LogEntry[] entries, string level)
     {
-        string[] filter_level = FilterByLevel(entries,level);
+        LogEntry[] filter_level = FilterByLevel(entries,level);
         int count_levels = filter_level.Length;
         return count_levels;
     }
 
     static string GetServerStatus(LogEntry[] entries)
     {
-        return "0";
+        int error_count = CountByLevel(entries,"Error");
+        int fatal_count = CountByLevel(FilterByCategory(entries,"Server"),"Fatal");
+
+        string server_status = "";
+        if (error_count==0 && fatal_count==0)
+            server_status = "Сервер работает штатно";
+        
+        if (error_count!=0 && fatal_count==0)
+            server_status = "Есть ошибки: требуется проверка";
+
+        if (fatal_count!=0)
+            server_status = "КРИТИЧЕСКАЯ ОШИБКА: сервер остановлен";
+        
+        
+        //Console.WriteLine($"{error_count},{fatal_count}");
+        return server_status;
     }
 }
