@@ -21,19 +21,12 @@ class Program
         public string Message;
     }
 
-    
     static void Main()
     {
         string[] server_log = File.ReadAllLines("../../../event_server.log");
-
-        LogEntry[] Test = ParseLog(server_log);
-
-        foreach (LogEntry log in Test)
-        {
-            Console.WriteLine(LogEntry_to_String(log));
-        }
     }
 
+    //возвращает массив LogEntry[]
     static LogEntry[] ParseLog(string[] lines)
     {
         LogEntry[] logEntries_array = new LogEntry[lines.Length];
@@ -84,6 +77,7 @@ class Program
         return logEntries_array;
     }
 
+    //возвращает записи указанной даты
     static LogEntry[] FilterByDate(LogEntry[] entries, DateTime date)
     {
         List<LogEntry> filter_list = new List<LogEntry>();
@@ -97,6 +91,7 @@ class Program
         return filter_result;
     }
 
+    //возвращает записи уровня Info, Warning, Error или Fatal
     static LogEntry[] FilterByLevel(LogEntry[] entries, string level)
     {
         List<LogEntry> filter_list = new List<LogEntry>();
@@ -110,6 +105,7 @@ class Program
         return filter_result;
     }
 
+    //возвращает записи категории, например Server, Combat или Database
     static LogEntry[] FilterByCategory(LogEntry[] entries, string category)
     {
         List<LogEntry> filter_list = new List<LogEntry>();
@@ -123,6 +119,7 @@ class Program
         return filter_result;
     }
 
+    //возвращает записи, в сообщении которых есть текст без учёта регистра
     static LogEntry[] Search(LogEntry[] entries, string text)
     {
         List<LogEntry> filter_list = new List<LogEntry>();
@@ -139,6 +136,7 @@ class Program
         return filter_result;
     }
 
+    //возвращает количество записей переданного уровня
     static int CountByLevel(LogEntry[] entries, string level)
     {
         LogEntry[] filter_level = FilterByLevel(entries,level);
@@ -146,6 +144,7 @@ class Program
         return count_levels;
     }
 
+    //возвращает Сервер работает штатно, если нет ошибок и Fatal; Есть ошибки: требуется проверка, если есть уровень Error; КРИТИЧЕСКАЯ ОШИБКА: сервер остановлен, если есть запись уровня Fatal категории Server
     static string GetServerStatus(LogEntry[] entries)
     {
         int error_count = CountByLevel(entries,"Error");
