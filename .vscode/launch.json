@@ -6,7 +6,7 @@
             "type": "dotnet",
             "request": "launch",
 
-            "projectPath": "${workspaceFolder}/sem-1-lab-03-logs/sem-1-lab-03-report-generator/sem-1-lab-03-report-generator.csproj"
+            "projectPath": "${workspaceFolder}/sem-1-lab-04-event-log/sem-1-lab-04-event-log.csproj"
 
         }
     ]
