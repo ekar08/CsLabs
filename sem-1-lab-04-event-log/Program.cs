@@ -12,14 +12,20 @@ class Program
         public string Category;
         public string Message;
     }
+
     
     static void Main()
     {
         string[] server_log = File.ReadAllLines("../../../event_server.log");
 
-        foreach (string log in server_log)
+        LogEntry[] logEntries_array = new LogEntry[server_log.Length];
+        
+        // заполняю LogEntry переменными
+        for (int j=0; j<server_log.Length; j++)
         {
+            string log = server_log[j];
             LogEntry logEntry = new LogEntry();
+
             int count_space = 0;
             int count_squarebr = 0;
             int ind_square_start = 0;//индекс открытой квадратной скобки
@@ -54,18 +60,26 @@ class Program
                     
                 }
             }
-            Console.WriteLine(logEntry.Message);
+            
+            logEntries_array[j] = logEntry;
         }
+
+        foreach (string log in server_log)
+            Console.WriteLine(log);
+         
+        DateTime test_date = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
         
+        string[] ByDate = FilterByDate(logEntries_array, test_date);
     }
 
     static string[] ParseLog(string[] lines)
     {
-        return [];
+        return lines;
     }
 
     static string[] FilterByDate(LogEntry[] entries, DateTime date)
     {
+        
         return [];
     }
 
