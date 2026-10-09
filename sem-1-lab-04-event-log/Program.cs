@@ -75,12 +75,15 @@ class Program
 
         
         //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        string test = "ВороН";
+        string test = "Warning";
 
-        string[] Test = Search(logEntries_array, test);
+        //string[] Test = Search(logEntries_array, test);
 
-        foreach (string log in Test)
-            Console.WriteLine(log);
+        int Testt = CountByLevel(logEntries_array, test);
+        Console.WriteLine(Testt);
+
+        //foreach (string log in Test)
+        //    Console.WriteLine(log);
     }
 
     static string[] ParseLog(string[] lines)
@@ -145,7 +148,9 @@ class Program
 
     static int CountByLevel(LogEntry[] entries, string level)
     {
-        return 0;
+        string[] filter_level = FilterByLevel(entries,level);
+        int count_levels = filter_level.Length;
+        return count_levels;
     }
 
     static string GetServerStatus(LogEntry[] entries)
