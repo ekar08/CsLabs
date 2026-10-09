@@ -7,7 +7,7 @@ class Program
 
     static string LogEntry_to_String(LogEntry log)
     {
-        string result = $"{log.Timestamp} [{log.Level}][{log.Category}] {log.Message}";
+        string result = $"{log.Timestamp} {log.Level}{log.Category} {log.Message}";
 
         return result;
     }
@@ -74,12 +74,13 @@ class Program
         }
 
         
-        //DateTime test_date = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        
-        //LogEntry[] ByDate = FilterByDate(logEntries_array, test_date);
+        //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
+        string test = "[Warning]";
 
-        //foreach (LogEntry log in ByDate)
-        //    Console.WriteLine(LogEntry_to_String(log));
+        string[] Test = FilterByLevel(logEntries_array, test);
+
+        foreach (string log in Test)
+            Console.WriteLine(log);
     }
 
     static string[] ParseLog(string[] lines)
@@ -87,22 +88,30 @@ class Program
         return lines;
     }
 
-    static LogEntry[] FilterByDate(LogEntry[] entries, DateTime date)
+    static string[] FilterByDate(LogEntry[] entries, DateTime date)
     {
-        List<LogEntry> filter_list = new List<LogEntry>();
+        List<string> filter_list = new List<string>();
 
         foreach (LogEntry log in entries)
             if(log.Timestamp.Date == date.Date)
-                filter_list.Add(log);
+                filter_list.Add(LogEntry_to_String(log));
 
-        LogEntry[] filter_result = filter_list.ToArray();
+        string[] filter_result = filter_list.ToArray();
             
         return filter_result;
     }
 
     static string[] FilterByLevel(LogEntry[] entries, string level)
     {
-        return [];
+        List<string> filter_list = new List<string>();
+
+        foreach (LogEntry log in entries)
+            if(log.Level == level)
+                filter_list.Add(LogEntry_to_String(log));
+
+        string[] filter_result = filter_list.ToArray();
+            
+        return filter_result;
     }
 
     static string[] FilterByCategory(LogEntry[] entries, string category)
