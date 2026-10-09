@@ -4,6 +4,14 @@ namespace sem_1_lab_04_event_log;
 
 class Program
 {
+
+    static string LogEntry_to_String(LogEntry log)
+    {
+        string result = $"{log.Timestamp} [{log.Level}][{log.Category}] {log.Message}";
+
+        return result;
+    }
+
     struct LogEntry()
     {
         //выбираю структуру, потому что потом мне нужны будут результаты фильтрации, а ориг логи должны сохраниться
@@ -62,14 +70,16 @@ class Program
             }
             
             logEntries_array[j] = logEntry;
+
         }
 
-        foreach (string log in server_log)
-            Console.WriteLine(log);
-         
-        DateTime test_date = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
         
-        string[] ByDate = FilterByDate(logEntries_array, test_date);
+        //DateTime test_date = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
+        
+        //LogEntry[] ByDate = FilterByDate(logEntries_array, test_date);
+
+        //foreach (LogEntry log in ByDate)
+        //    Console.WriteLine(LogEntry_to_String(log));
     }
 
     static string[] ParseLog(string[] lines)
@@ -77,10 +87,17 @@ class Program
         return lines;
     }
 
-    static string[] FilterByDate(LogEntry[] entries, DateTime date)
+    static LogEntry[] FilterByDate(LogEntry[] entries, DateTime date)
     {
-        
-        return [];
+        List<LogEntry> filter_list = new List<LogEntry>();
+
+        foreach (LogEntry log in entries)
+            if(log.Timestamp.Date == date.Date)
+                filter_list.Add(log);
+
+        LogEntry[] filter_result = filter_list.ToArray();
+            
+        return filter_result;
     }
 
     static string[] FilterByLevel(LogEntry[] entries, string level)
