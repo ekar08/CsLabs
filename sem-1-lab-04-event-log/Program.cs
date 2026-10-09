@@ -75,9 +75,9 @@ class Program
 
         
         //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        string test = "Server";
+        string test = "ВороН";
 
-        string[] Test = FilterByCategory(logEntries_array, test);
+        string[] Test = Search(logEntries_array, test);
 
         foreach (string log in Test)
             Console.WriteLine(log);
@@ -129,7 +129,18 @@ class Program
 
     static string[] Search(LogEntry[] entries, string text)
     {
-        return [];
+        List<string> filter_list = new List<string>();
+
+        foreach (LogEntry log in entries)
+        {
+            string message = log.Message.ToLower();
+            string text_low = text.ToLower();
+            if (message.Contains(text_low))
+                filter_list.Add(LogEntry_to_String(log));
+        }
+        string[] filter_result = filter_list.ToArray();
+            
+        return filter_result;
     }
 
     static int CountByLevel(LogEntry[] entries, string level)
