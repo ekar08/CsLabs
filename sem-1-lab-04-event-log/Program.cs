@@ -4,7 +4,7 @@ namespace sem_1_lab_04_event_log;
 
 class Program
 {
-
+    //превращает записи типа LogEntry обратно в string (для проверки работы)
     static string LogEntry_to_String(LogEntry log)
     {
         string result = $"{log.Timestamp} [{log.Level}][{log.Category}] {log.Message}";
@@ -26,12 +26,21 @@ class Program
     {
         string[] server_log = File.ReadAllLines("../../../event_server.log");
 
-        LogEntry[] logEntries_array = new LogEntry[server_log.Length];
-        
-        // заполняю LogEntry переменными
-        for (int j=0; j<server_log.Length; j++)
+        LogEntry[] Test = ParseLog(server_log);
+
+        foreach (LogEntry log in Test)
         {
-            string log = server_log[j];
+            Console.WriteLine(LogEntry_to_String(log));
+        }
+    }
+
+    static LogEntry[] ParseLog(string[] lines)
+    {
+        LogEntry[] logEntries_array = new LogEntry[lines.Length];
+
+        for (int j=0; j<lines.Length; j++)
+        {
+            string log = lines[j];
             LogEntry logEntry = new LogEntry();
 
             int count_space = 0;
@@ -72,23 +81,7 @@ class Program
             logEntries_array[j] = logEntry;
 
         }
-
-        
-        //DateTime test = Convert.ToDateTime("2026-09-01 12:10:01.101"); 
-        //string test = "Warning";
-
-        //string[] Test = Search(logEntries_array, test);
-
-        //int Testt = CountByLevel(logEntries_array, test);
-        //Console.WriteLine(Testt);
-        Console.WriteLine(GetServerStatus(logEntries_array));
-        //foreach (string log in Test)
-        //    Console.WriteLine(log);
-    }
-
-    static string[] ParseLog(string[] lines)
-    {
-        return lines;
+        return logEntries_array;
     }
 
     static LogEntry[] FilterByDate(LogEntry[] entries, DateTime date)
@@ -168,8 +161,6 @@ class Program
         if (fatal_count!=0)
             server_status = "КРИТИЧЕСКАЯ ОШИБКА: сервер остановлен";
         
-        
-        //Console.WriteLine($"{error_count},{fatal_count}");
         return server_status;
     }
 }
