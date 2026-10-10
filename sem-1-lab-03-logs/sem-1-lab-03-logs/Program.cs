@@ -109,16 +109,15 @@ class Program
             {
                 count_errors++;
             }
-
         }
 
-        Console.WriteLine(main_dateTime_start.ToString("dd.MM.yyyy"));
-        Console.WriteLine(main_reward);
-        Console.WriteLine(main_winner);
-        Console.WriteLine(main_loot);
-        Console.WriteLine(main_reward_sad);
-        Console.WriteLine(count_warning);
-        Console.WriteLine(count_errors);
+        Console.WriteLine($"Дата: {main_dateTime_start.ToString("dd.MM.yyyy")}");
+        Console.WriteLine($"Победитель: {main_winner}");
+        Console.WriteLine($"Очки победителя: {main_reward}");
+        Console.WriteLine($"Ивентовый предмет: {main_loot}");
+        Console.WriteLine($"Утешительная награда Железных волков: {main_reward_sad}");
+        Console.WriteLine($"Предупреждений во время события: {count_warning}");
+        Console.WriteLine($"Ошибок во время события: {count_errors}");
     }
 
     static string[] Event_Continue(string[] entries)
