@@ -9,7 +9,7 @@ class Program
     {
         public string Name;
         public string File;
-        public string UpdatedAt;
+        public DateTime UpdatedAt;
     }
 
     class SaveData
@@ -29,7 +29,8 @@ class Program
 
     static void Main()
     {
-        List<SaveEntry> index = LoadIndex("../../../index.json");
+        
+        List<SaveEntry> index = LoadIndex("../../../index.json");/*
         Console.WriteLine(index[0].Name);
         Console.WriteLine(index[1].File);
 
@@ -38,7 +39,10 @@ class Program
 
 
         string stats = PrintSave(index[0],saveData);
-        Console.WriteLine(stats);
+        Console.WriteLine(stats);*/
+
+        SaveEntry lost = FindByName(index,"slo");
+        Console.WriteLine(PrintSave(lost,LoadSave("../../../saves",lost)));
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
@@ -73,4 +77,19 @@ class Program
         return printSave;
     }
 
+    static SaveEntry FindByName(List<SaveEntry> entries, string name)
+    {
+        foreach (SaveEntry entry in entries)
+        {
+            if (entry.Name == name)
+                return entry;
+        }
+
+        return new SaveEntry
+        {
+            Name = "Не найдено",
+            File = "autosave.json",
+            UpdatedAt = DateTime.Now
+        };
+    }
 }
