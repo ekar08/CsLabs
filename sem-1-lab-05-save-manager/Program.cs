@@ -33,14 +33,19 @@ class Program
         Console.WriteLine(index[0].Name);
         Console.WriteLine(index[1].File);
 
-        SaveData saveData = LoadSave("../../../saves",index[1]);
+        SaveData saveData = LoadSave("../../../saves",index[0]);
         Console.WriteLine(saveData.Character);
+
+
+        string stats = PrintSave(index[0],saveData);
+        Console.WriteLine(stats);
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
     {
         List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
         return indexSave;
+        //сделать соо об ошибке
     }
 
     static SaveData LoadSave(string savesDirectory, SaveEntry entry)
@@ -48,6 +53,24 @@ class Program
         SaveData save = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText($"{savesDirectory}/{entry.File}"));;
 
         return save;
+        //сделать соо об ошибке
+    }
+
+    static string PrintSave(SaveEntry entry, SaveData save)
+    {
+        string[] inventory_arr = save.Inventory.ToArray();
+        string inventory_str = "";
+
+        foreach (string loot in inventory_arr)
+        {
+            if (inventory_str!="")
+                inventory_str+=", ";
+            
+            inventory_str+=loot;
+        }
+
+        string printSave = $"Имя сохранения: {entry.Name}\nИмя персонажа: {save.Character}\nКарта: {save.Map}\nКоординаты: x={save.Position.X} ; y={save.Position.Y}\nЗдоровье: {save.Health}\nИнвентарь: {inventory_str}";
+        return printSave;
     }
 
 }
