@@ -1,0 +1,14 @@
+{
+  "Character": "Borin",
+  "Map": "Sunken Archive",
+  "Position": {
+    "X": 22,
+    "Y": 91
+  },
+  "Health": 100,
+  "Inventory": [
+    "lantern",
+    "bronze key",
+    "bread"
+  ]
+}

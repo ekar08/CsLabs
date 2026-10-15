@@ -29,23 +29,13 @@ class Program
 
     static void Main()
     {
-        
-        List<SaveEntry> index = LoadIndex("../../../index.json");/*
-        Console.WriteLine(index[0].Name);
-        Console.WriteLine(index[1].File);
+        string indexPath = "../../../index.json";
+        string savesPath = "../../../saves";
+        string backupPath = "../../../backups";
 
-        SaveData saveData = LoadSave("../../../saves",index[0]);
-        Console.WriteLine(saveData.Character);
+        List<SaveEntry> index = LoadIndex(indexPath);
 
-
-        string stats = PrintSave(index[0],saveData);
-        Console.WriteLine(stats);*/
-
-        SaveEntry lost = FindByName(index,"slo");
-        Console.WriteLine(PrintSave(lost,LoadSave("../../../saves",lost)));
-
-
-        SaveGame("../../../saves",index[0],LoadSave("../../../saves",index[0]));
+        CreateBackup(savesPath, backupPath, index[1]);
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
@@ -135,5 +125,12 @@ class Program
         string user_index = JsonConvert.SerializeObject(entries, Formatting.Indented);
 
         File.WriteAllText($"{indexPath}", user_index);
+    }
+
+    static void CreateBackup(string savesDirectory, string backupsDirectory, SaveEntry entry)
+    {
+        SaveData saveData = LoadSave(savesDirectory,entry);
+        string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+        File.WriteAllText($"{backupsDirectory}/backup.json", json);
     }
 }
