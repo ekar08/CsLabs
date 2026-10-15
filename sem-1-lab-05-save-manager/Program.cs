@@ -45,7 +45,7 @@ class Program
         Console.WriteLine(PrintSave(lost,LoadSave("../../../saves",lost)));
 
 
-        Console.WriteLine(SaveGame("../../../saves",index[0],LoadSave("../../../saves",index[0])));
+        SaveGame("../../../saves",index[0],LoadSave("../../../saves",index[0]));
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
@@ -96,7 +96,7 @@ class Program
         };
     }
 
-    static SaveData SaveGame(string savesDirectory, SaveEntry entry, SaveData save)
+    static void SaveGame(string savesDirectory, SaveEntry entry, SaveData save)
     {
         Console.WriteLine($"Давайте изменим сохранение в {save}");
         SaveData new_save = new SaveData();
@@ -126,11 +126,14 @@ class Program
         while (loot!="");
         new_save.Inventory = new_inventory;
 
-
         string user_save = JsonConvert.SerializeObject(new_save, Formatting.Indented);
         File.WriteAllText($"{savesDirectory}/save-03.json", user_save);
-        return new_save;
     }
 
+    static void SaveIndex(string indexPath, List<SaveEntry> entries)
+    {
+        string user_index = JsonConvert.SerializeObject(entries, Formatting.Indented);
 
+        File.WriteAllText($"{indexPath}", user_index);
+    }
 }
