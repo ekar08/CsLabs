@@ -1,10 +1,17 @@
 {
-  "Character": "ggg",
-  "Map": "dfghdf",
+  "Character": "me",
+  "Map": "ne",
   "Position": {
-    "X": 0,
-    "Y": 0
+    "X": 676,
+    "Y": 67
   },
-  "Health": 56,
-  "Inventory": null
+  "Health": 100,
+  "Inventory": [
+    "bebebe",
+    "meme",
+    "nene",
+    "fefe",
+    "rere",
+    "tete"
+  ]
 }

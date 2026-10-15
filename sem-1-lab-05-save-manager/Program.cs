@@ -103,14 +103,28 @@ class Program
 
         Console.Write("Character: ");
         new_save.Character = Console.ReadLine();
+
         Console.Write("Map: ");
         new_save.Map = Console.ReadLine();
-        Console.Write("Position: ");
-        //new_save.Character = Console.ReadLine();
+
+        Console.Write("Position.\nX: ");
+        new_save.Position.X = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Y: ");
+        new_save.Position.Y = Convert.ToInt32(Console.ReadLine());
         Console.Write("Health: ");
+
         new_save.Health = Convert.ToInt32(Console.ReadLine());
         Console.Write("Inventory: ");
-        //new_save.Inventory = Console.ReadLine();
+        List<string> new_inventory = new List<string>();
+        string loot;
+        do
+        {
+            loot = Console.ReadLine();
+            if (loot!="")
+                new_inventory.Add(loot); 
+        }
+        while (loot!="");
+        new_save.Inventory = new_inventory;
 
 
         string user_save = JsonConvert.SerializeObject(new_save, Formatting.Indented);
@@ -118,5 +132,5 @@ class Program
         return new_save;
     }
 
-    
+
 }
