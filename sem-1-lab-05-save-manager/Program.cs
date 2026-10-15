@@ -35,7 +35,7 @@ class Program
 
         List<SaveEntry> index = LoadIndex(indexPath);
 
-        CreateBackup(savesPath, backupPath, index[1]);
+        RestoreBackup(savesPath, backupPath, index[1]);
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
@@ -131,6 +131,13 @@ class Program
     {
         SaveData saveData = LoadSave(savesDirectory,entry);
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-        File.WriteAllText($"{backupsDirectory}/backup.json", json);
+        File.WriteAllText($"{backupsDirectory}/{entry.File}", json);
+    }
+
+    static void RestoreBackup(string savesDirectory, string backupsDirectory, SaveEntry entry)
+    {
+        SaveData saveData = LoadSave(backupsDirectory,entry);
+        string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+        File.WriteAllText($"{savesDirectory}/{entry.File}", json);
     }
 }
