@@ -1,0 +1,10 @@
+{
+  "Character": "ggg",
+  "Map": "dfghdf",
+  "Position": {
+    "X": 0,
+    "Y": 0
+  },
+  "Health": 56,
+  "Inventory": null
+}

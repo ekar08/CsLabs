@@ -43,6 +43,9 @@ class Program
 
         SaveEntry lost = FindByName(index,"slo");
         Console.WriteLine(PrintSave(lost,LoadSave("../../../saves",lost)));
+
+
+        Console.WriteLine(SaveGame("../../../saves",index[0],LoadSave("../../../saves",index[0])));
     }
 
     static List<SaveEntry> LoadIndex(string indexPath)
@@ -92,4 +95,28 @@ class Program
             UpdatedAt = DateTime.Now
         };
     }
+
+    static SaveData SaveGame(string savesDirectory, SaveEntry entry, SaveData save)
+    {
+        Console.WriteLine($"Давайте изменим сохранение в {save}");
+        SaveData new_save = new SaveData();
+
+        Console.Write("Character: ");
+        new_save.Character = Console.ReadLine();
+        Console.Write("Map: ");
+        new_save.Map = Console.ReadLine();
+        Console.Write("Position: ");
+        //new_save.Character = Console.ReadLine();
+        Console.Write("Health: ");
+        new_save.Health = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Inventory: ");
+        //new_save.Inventory = Console.ReadLine();
+
+
+        string user_save = JsonConvert.SerializeObject(new_save, Formatting.Indented);
+        File.WriteAllText($"{savesDirectory}/save-03.json", user_save);
+        return new_save;
+    }
+
+    
 }
