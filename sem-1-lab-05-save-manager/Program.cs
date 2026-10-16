@@ -33,11 +33,26 @@ class Program
         string savesPath = "../../../saves";
         string backupPath = "../../../backups";
 
-        List<SaveEntry> index = LoadIndex(indexPath);
+        Console.WriteLine("1# Показать список сохранений.\n2# Посмотреть данные сохранения.\n3# Изменить данные( персонажа и записать их обратно.\n4# Создать резервную копию.\n5# Восстановить резервную копию.\n6#Удалить сохранение.\n7# Выйти.");
 
-        RestoreBackup(savesPath, backupPath, index[1]);
+        int choice = Convert.ToInt32(Console.ReadLine());
+
+        switch (choice)
+        {
+            case 1:
+                List<SaveEntry> indexList = LoadIndex(indexPath);
+                break;
+            case 2:
+                SaveData userSave = LoadSave(savesPath,LoadIndex(indexPath)[0]);
+                break;
+            case 3:
+                SaveGame(savesPath,LoadIndex(indexPath)[0],LoadSave(savesPath,LoadIndex(indexPath)[0]));
+                break;
+            case 4:
+                
+
+        }
     }
-
     static List<SaveEntry> LoadIndex(string indexPath)
     {
         List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
@@ -139,5 +154,11 @@ class Program
         SaveData saveData = LoadSave(backupsDirectory,entry);
         string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
         File.WriteAllText($"{savesDirectory}/{entry.File}", json);
+    }
+
+    static void DeleteSave(string savesDirectory, string indexPath, List<SaveEntry> entries, SaveEntry entry)
+    {
+        File.Delete($"{savesDirectory}/{entry.File}");
+        
     }
 }
