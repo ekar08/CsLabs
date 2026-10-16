@@ -24,6 +24,7 @@ class Program
     static void Main()
     {
         string[] server_log = File.ReadAllLines("../../../event_server.log");
+
     }
 
     //возвращает массив LogEntry[]
