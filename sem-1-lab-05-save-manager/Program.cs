@@ -33,58 +33,61 @@ class Program
         string savesPath = "../../../saves";
         string backupPath = "../../../backups";
 
-        Console.Write("1# Показать список сохранений.\n2# Посмотреть данные сохранения.\n3# Изменить данные персонажа и записать их обратно.\n4# Создать резервную копию.\n5# Восстановить резервную копию.\n6# Удалить сохранение.\n7# Выйти.\n\n=======================================\n\nВаш выбор# ");
-
-
-        int choice = Convert.ToInt32(Console.ReadLine());
         List<SaveEntry> indexList = LoadIndex(indexPath);
+        int choice=0;
+        do{
+            Console.Write("\n\n1# Показать список сохранений.\n2# Посмотреть данные сохранения.\n3# Изменить данные персонажа и записать их обратно.\n4# Создать резервную копию.\n5# Восстановить резервную копию.\n6# Удалить сохранение.\n7# Выйти.\n\n=======================================\n\nВаш выбор# ");
 
-        switch (choice)
-        {
-            case 1:
-                Console.WriteLine("\nСписок сохранений: ");
-                foreach (SaveEntry index_one in indexList)  
-                    Console.WriteLine(index_one.Name);
-                break;
+            choice = Convert.ToInt32(Console.ReadLine());
+            
+            switch (choice)
+            {
+                case 1:
+                    Console.WriteLine("\nСписок сохранений: ");
+                    foreach (SaveEntry index_one in indexList)  
+                        Console.WriteLine(index_one.Name);
+                    break;
 
-            case 2:
-                Console.WriteLine("\nВведите имя сохранения: ");
-                string nameSave2 = Console.ReadLine();
-                SaveEntry interestEntry2 = FindByName(indexList,nameSave2);
-                SaveData interestData2 = LoadSave(savesPath,interestEntry2);
+                case 2:
+                    Console.Write("\nВведите имя сохранения: ");
+                    string nameSave2 = Console.ReadLine();
+                    SaveEntry interestEntry2 = FindByName(indexList,nameSave2);
+                    SaveData interestData2 = LoadSave(savesPath,interestEntry2);
 
-                Console.WriteLine(PrintSave(interestEntry2,interestData2));
-                break;
+                    Console.WriteLine(PrintSave(interestEntry2,interestData2));
+                    break;
 
-            case 3:
-                Console.WriteLine("\nВведите имя сохранения, которое хотите редактировать: ");
-                string nameSave3 = Console.ReadLine();
-                SaveEntry interestEntry3 = FindByName(indexList,nameSave3);
-                SaveData interestData3 = LoadSave(savesPath,interestEntry3);
-                SaveGame(savesPath,interestEntry3,interestData3);
-                break;
+                case 3:
+                    Console.Write("\nВведите имя сохранения, которое хотите редактировать: ");
+                    string nameSave3 = Console.ReadLine();
+                    SaveEntry interestEntry3 = FindByName(indexList,nameSave3);
+                    SaveData interestData3 = LoadSave(savesPath,interestEntry3);
+                    SaveGame(savesPath,interestEntry3,interestData3);
+                    break;
 
-            case 4:
-                Console.WriteLine("\nВведите имя сохранения, для которого хотите сделать резервную копию: ");
-                string nameSave4 = Console.ReadLine();
-                SaveEntry interestEntry4 = FindByName(indexList,nameSave4);
-                CreateBackup(savesPath,backupPath,interestEntry4);
-                break;
+                case 4:
+                    Console.Write("\nВведите имя сохранения, для которого хотите сделать резервную копию: ");
+                    string nameSave4 = Console.ReadLine();
+                    SaveEntry interestEntry4 = FindByName(indexList,nameSave4);
+                    CreateBackup(savesPath,backupPath,interestEntry4);
+                    break;
 
-            case 5:
-                Console.WriteLine("\nВведите имя сохранения, чью резервную копию вы хотите восстановить: ");
-                string nameSave5 = Console.ReadLine();
-                SaveEntry interestEntry5 = FindByName(indexList,nameSave5);
-                RestoreBackup(savesPath,backupPath,interestEntry5);
-                break;
+                case 5:
+                    Console.Write("\nВведите имя сохранения, чью резервную копию вы хотите восстановить: ");
+                    string nameSave5 = Console.ReadLine();
+                    SaveEntry interestEntry5 = FindByName(indexList,nameSave5);
+                    RestoreBackup(savesPath,backupPath,interestEntry5);
+                    break;
 
-            case 6:
-                Console.WriteLine("\nВведите имя сохранения, которое хотите удалить: ");
-                string nameSave6 = Console.ReadLine();
-                SaveEntry interestEntry6 = FindByName(indexList,nameSave6);
-                DeleteSave(savesPath,indexPath,indexList,interestEntry6);
-                break;
+                case 6:
+                    Console.Write("\nВведите имя сохранения, которое хотите удалить: ");
+                    string nameSave6 = Console.ReadLine();
+                    SaveEntry interestEntry6 = FindByName(indexList,nameSave6);
+                    DeleteSave(savesPath,indexPath,indexList,interestEntry6);
+                    break;
+            }
         }
+        while(choice!=7);
     }
     static List<SaveEntry> LoadIndex(string indexPath)
     {
@@ -194,6 +197,6 @@ class Program
     static void DeleteSave(string savesDirectory, string indexPath, List<SaveEntry> entries, SaveEntry entry)
     {
         File.Delete($"{savesDirectory}/{entry.File}");
-        //сделать удаление файла из index.json
+        //int removeIndex = entries.FindIndex()
     }
 }
