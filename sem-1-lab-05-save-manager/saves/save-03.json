@@ -1,17 +1,12 @@
 {
-  "Character": "me",
-  "Map": "ne",
+  "Character": "NewCh",
+  "Map": "NewMP",
   "Position": {
-    "X": 676,
-    "Y": 67
+    "X": 12,
+    "Y": 21
   },
-  "Health": 100,
+  "Health": 133,
   "Inventory": [
-    "bebebe",
-    "meme",
-    "nene",
-    "fefe",
-    "rere",
-    "tete"
+    " q w e r t yyyy"
   ]
 }
