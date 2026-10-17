@@ -201,7 +201,7 @@ class Program
         else
             new_save.Position.X = Convert.ToInt32(new_savePosition_X);
 
-        Console.Write("\nY: ");
+        Console.Write("Y: ");
         string new_savePosition_Y = Console.ReadLine();
         if (new_savePosition_Y.Trim() == "")
             new_save.Position.Y = save.Position.Y;
