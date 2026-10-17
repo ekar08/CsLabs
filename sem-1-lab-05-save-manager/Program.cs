@@ -127,8 +127,8 @@ class Program
     {
         try 
         {
-        SaveData save = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText($"{savesDirectory}/{entry.File}"));;
-        return save;
+            SaveData save = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText($"{savesDirectory}/{entry.File}"));
+            return save;
         }
         catch (FileNotFoundException)
         {
@@ -179,6 +179,7 @@ class Program
         
     }
 
+    //в этом методе наверное можно обойтись и без изменения входных параметров, если я просто буду возвращать измененный список/запись, и из Main вызывать запись index.json, но пока так 
     static void SaveGame(string savesDirectory, SaveEntry entry, string indexPath,List<SaveEntry> entries)
     {
         Console.WriteLine($"Давайте изменим сохранение в {entry.Name}");
@@ -239,8 +240,7 @@ class Program
             DateFormatString = "yyyy-MM-dd'T'HH:mm:ss"
         };
         entry.UpdatedAt = DateTime.Now;
-        string user_index = JsonConvert.SerializeObject(entries, Formatting.Indented,settings);
-        File.WriteAllText(indexPath, user_index);
+        SaveIndex(indexPath,entries);
     }
 
     static void SaveIndex(string indexPath, List<SaveEntry> entries)
@@ -266,7 +266,11 @@ class Program
 
     static void DeleteSave(string savesDirectory, string indexPath, List<SaveEntry> entries, SaveEntry entry)
     {
-        File.Delete($"{savesDirectory}/{entry.File}");
-        //int removeIndex = entries.FindIndex()
+        if (File.Exists($"{savesDirectory}/{entry.File}"))
+            File.Delete($"{savesDirectory}/{entry.File}");
+        else
+            Console.WriteLine("Файл не найден");
+        entries.RemoveAll(entry_rem => entry_rem.Name == entry.Name);
+        SaveIndex(indexPath,entries);
     }
 }

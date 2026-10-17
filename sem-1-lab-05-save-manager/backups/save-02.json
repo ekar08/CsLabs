@@ -1,14 +1,12 @@
 {
   "Character": "Borin",
-  "Map": "Sunken Archive",
+  "Map": "asdf",
   "Position": {
-    "X": 22,
-    "Y": 91
+    "X": 4,
+    "Y": 43
   },
-  "Health": 100,
+  "Health": 4,
   "Inventory": [
-    "lantern",
-    "bronze key",
-    "bread"
+    "fgfgfgf"
   ]
 }
