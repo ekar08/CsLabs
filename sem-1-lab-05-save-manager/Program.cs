@@ -35,6 +35,7 @@ class Program
 
         List<SaveEntry> indexList = LoadIndex(indexPath);
         int choice=0;
+        //это и есть то самое меню, которое бесконечно выполняется, пока я из него не выйду
         do{
             Console.Write("\n\n1# Показать список сохранений.\n2# Посмотреть данные сохранения.\n3# Изменить данные персонажа и записать их обратно.\n4# Создать резервную копию.\n5# Восстановить резервную копию.\n6# Удалить сохранение.\n7# Выйти.\n\n=======================================\n\nВаш выбор# ");
 
@@ -91,17 +92,38 @@ class Program
     }
     static List<SaveEntry> LoadIndex(string indexPath)
     {
+        try 
+        {
         List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
         return indexSave;
-        //сделать соо об ошибке
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Файл не найден");
+        }
+        catch (JsonReaderException)
+        {
+            Console.WriteLine("JSON некорректен");
+        }
+        return null;
     }
 
     static SaveData LoadSave(string savesDirectory, SaveEntry entry)
     {
+        try 
+        {
         SaveData save = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText($"{savesDirectory}/{entry.File}"));;
-
         return save;
-        //сделать соо об ошибке
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Файл не найден");
+        }
+        catch (JsonReaderException)
+        {
+            Console.WriteLine("JSON некорректен");
+        }
+        return null;
     }
 
     static string PrintSave(SaveEntry entry, SaveData save)
@@ -123,40 +145,59 @@ class Program
 
     static SaveEntry FindByName(List<SaveEntry> entries, string name)
     {
-        foreach (SaveEntry entry in entries)
+        try
         {
-            string userNameL = entry.Name.ToLower();
-            string nameL = name.ToLower();
-            if (userNameL == nameL)
-                return entry;
+            foreach (SaveEntry entry in entries)
+            {
+                string userNameL = entry.Name.ToLower();
+                string nameL = name.ToLower();
+                if (userNameL == nameL)
+                    return entry;
+            }
         }
-
-        return new SaveEntry
+        catch (FileNotFoundException)
         {
-            Name = "Не найдено",
-            File = "autosave.json",
-            UpdatedAt = DateTime.Now
-        };
+            Console.WriteLine("Файл не найден");
+        }
+        return null;
+        
     }
 
     static void SaveGame(string savesDirectory, SaveEntry entry, SaveData save)
     {
-        Console.WriteLine($"Давайте изменим сохранение в {save}");
+        Console.WriteLine($"Давайте изменим сохранение в {entry.Name}");
         SaveData new_save = new SaveData();
 
-        Console.Write("Character: ");
-        new_save.Character = Console.ReadLine();
+        new_save.Character = save.Character;
 
         Console.Write("Map: ");
-        new_save.Map = Console.ReadLine();
+        string new_saveMap = Console.ReadLine();
+        if (new_saveMap.Trim() == "")
+            new_save.Map = save.Map;
+        else
+            new_save.Map = new_saveMap;
 
         Console.Write("Position.\nX: ");
-        new_save.Position.X = Convert.ToInt32(Console.ReadLine());
-        Console.Write("Y: ");
-        new_save.Position.Y = Convert.ToInt32(Console.ReadLine());
-        Console.Write("Health: ");
+        string new_savePosition_X = Console.ReadLine();
+        if (new_savePosition_X.Trim() == "")
+            new_save.Position.X = save.Position.X;
+        else
+            new_save.Position.X = Convert.ToInt32(new_savePosition_X);
 
-        new_save.Health = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Position.\nY: ");
+        string new_savePosition_Y = Console.ReadLine();
+        if (new_savePosition_Y.Trim() == "")
+            new_save.Position.Y = save.Position.Y;
+        else
+            new_save.Position.Y = Convert.ToInt32(new_savePosition_Y);
+
+        Console.Write("Health: ");
+        string new_saveHealth = Console.ReadLine();
+        if (new_saveHealth.Trim() == "")
+            new_save.Health = save.Health;
+        else
+            new_save.Health = Convert.ToInt32(new_saveHealth);
+
         Console.Write("Inventory: ");
         List<string> new_inventory = new List<string>();
         string loot;
@@ -167,7 +208,11 @@ class Program
                 new_inventory.Add(loot); 
         }
         while (loot!="");
-        new_save.Inventory = new_inventory;
+        
+        if (new_inventory[0].Trim() == "")
+            new_save.Inventory = save.Inventory;
+        else
+            new_save.Inventory = new_inventory;
 
         string user_save = JsonConvert.SerializeObject(new_save, Formatting.Indented);
         File.WriteAllText($"{savesDirectory}/save-03.json", user_save);
