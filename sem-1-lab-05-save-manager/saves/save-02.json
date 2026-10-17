@@ -1,0 +1,12 @@
+{
+  "Character": "Borin",
+  "Map": "asdf",
+  "Position": {
+    "X": 4,
+    "Y": 43
+  },
+  "Health": 4,
+  "Inventory": [
+    "fgfgfgf"
+  ]
+}

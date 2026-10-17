@@ -53,38 +53,53 @@ class Program
                     Console.Write("\nВведите имя сохранения: ");
                     string nameSave2 = Console.ReadLine();
                     SaveEntry interestEntry2 = FindByName(indexList,nameSave2);
-                    SaveData interestData2 = LoadSave(savesPath,interestEntry2);
-
-                    Console.WriteLine(PrintSave(interestEntry2,interestData2));
+                    if (interestEntry2 != null)
+                    {
+                        SaveData interestData2 = LoadSave(savesPath,interestEntry2);
+                        Console.WriteLine(PrintSave(interestEntry2,interestData2));
+                    }
+                    
                     break;
 
                 case 3:
                     Console.Write("\nВведите имя сохранения, которое хотите редактировать: ");
                     string nameSave3 = Console.ReadLine();
                     SaveEntry interestEntry3 = FindByName(indexList,nameSave3);
-                    SaveData interestData3 = LoadSave(savesPath,interestEntry3);
-                    SaveGame(savesPath,interestEntry3,interestData3);
+                    if (interestEntry3!=null) 
+                    {
+                        SaveData interestData3 = LoadSave(savesPath,interestEntry3);
+                        SaveGame(savesPath,interestEntry3,indexPath,indexList);
+                    }
                     break;
 
                 case 4:
                     Console.Write("\nВведите имя сохранения, для которого хотите сделать резервную копию: ");
                     string nameSave4 = Console.ReadLine();
                     SaveEntry interestEntry4 = FindByName(indexList,nameSave4);
-                    CreateBackup(savesPath,backupPath,interestEntry4);
+                    if (interestEntry4!=null)
+                    {
+                        CreateBackup(savesPath,backupPath,interestEntry4);
+                    }
                     break;
 
                 case 5:
                     Console.Write("\nВведите имя сохранения, чью резервную копию вы хотите восстановить: ");
                     string nameSave5 = Console.ReadLine();
                     SaveEntry interestEntry5 = FindByName(indexList,nameSave5);
-                    RestoreBackup(savesPath,backupPath,interestEntry5);
+                    if (interestEntry5 != null)
+                    {
+                        RestoreBackup(savesPath,backupPath,interestEntry5);
+                    }
                     break;
 
                 case 6:
                     Console.Write("\nВведите имя сохранения, которое хотите удалить: ");
                     string nameSave6 = Console.ReadLine();
                     SaveEntry interestEntry6 = FindByName(indexList,nameSave6);
-                    DeleteSave(savesPath,indexPath,indexList,interestEntry6);
+                    if (interestEntry6 != null)
+                    {
+                        DeleteSave(savesPath,indexPath,indexList,interestEntry6);
+                    }
                     break;
             }
         }
@@ -145,27 +160,29 @@ class Program
 
     static SaveEntry FindByName(List<SaveEntry> entries, string name)
     {
-        try
+        bool find = false;
+        foreach (SaveEntry entry in entries)
         {
-            foreach (SaveEntry entry in entries)
+            string userNameL = entry.Name.ToLower();
+            string nameL = name.ToLower();
+            if (userNameL == nameL)
             {
-                string userNameL = entry.Name.ToLower();
-                string nameL = name.ToLower();
-                if (userNameL == nameL)
-                    return entry;
-            }
+                find = true;
+                return entry; 
+            }  
         }
-        catch (FileNotFoundException)
-        {
+
+        if (find==false)
             Console.WriteLine("Файл не найден");
-        }
+        
         return null;
         
     }
 
-    static void SaveGame(string savesDirectory, SaveEntry entry, SaveData save)
+    static void SaveGame(string savesDirectory, SaveEntry entry, string indexPath,List<SaveEntry> entries)
     {
         Console.WriteLine($"Давайте изменим сохранение в {entry.Name}");
+        SaveData save = LoadSave(savesDirectory,entry);
         SaveData new_save = new SaveData();
 
         new_save.Character = save.Character;
@@ -184,7 +201,7 @@ class Program
         else
             new_save.Position.X = Convert.ToInt32(new_savePosition_X);
 
-        Console.Write("Position.\nY: ");
+        Console.Write("\nY: ");
         string new_savePosition_Y = Console.ReadLine();
         if (new_savePosition_Y.Trim() == "")
             new_save.Position.Y = save.Position.Y;
@@ -209,13 +226,21 @@ class Program
         }
         while (loot!="");
         
-        if (new_inventory[0].Trim() == "")
+        if (new_inventory.Count == 0)
             new_save.Inventory = save.Inventory;
         else
             new_save.Inventory = new_inventory;
 
         string user_save = JsonConvert.SerializeObject(new_save, Formatting.Indented);
-        File.WriteAllText($"{savesDirectory}/save-03.json", user_save);
+        File.WriteAllText($"{savesDirectory}/{entry.File}", user_save);
+
+        var settings = new JsonSerializerSettings
+        {
+            DateFormatString = "yyyy-MM-dd'T'HH:mm:ss"
+        };
+        entry.UpdatedAt = DateTime.Now;
+        string user_index = JsonConvert.SerializeObject(entries, Formatting.Indented,settings);
+        File.WriteAllText(indexPath, user_index);
     }
 
     static void SaveIndex(string indexPath, List<SaveEntry> entries)
