@@ -1,10 +1,14 @@
 {
-  "character": "Mira",
-  "map": "Ashen Coast",
-  "position": {
-    "x": 128,
-    "y": 47
+  "Character": "Mira",
+  "Map": "Ashen Coast",
+  "Position": {
+    "X": 128,
+    "Y": 47
   },
-  "health": 76,
-  "inventory": ["iron sword", "healing potion", "old map"]
+  "Health": 76,
+  "Inventory": [
+    "iron sword",
+    "healing potion",
+    "old map"
+  ]
 }

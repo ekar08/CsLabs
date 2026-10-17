@@ -34,7 +34,11 @@ class Program
         string backupfolderPath = "../../../backups";
         string backupPath = "../../../backup.json";
 
+
         List<SaveEntry> indexList = LoadIndex(indexPath);
+        List<SaveEntry> backupsList = new List<SaveEntry>();
+        
+        
         int choice=0;
         //это и есть то самое меню, которое бесконечно выполняется, пока я из него не выйду
         do{
@@ -86,17 +90,27 @@ class Program
                 case 5:
                     Console.Write("\nВведите имя сохранения, чью резервную копию вы хотите восстановить: ");
                     string nameSave5 = Console.ReadLine();
-                    SaveEntry interestEntry5 = FindByName(indexList,nameSave5);
-                    if (interestEntry5 != null)
+
+                    if (File.Exists(backupPath))
                     {
-                        RestoreBackup(savesPath,backupfolderPath,interestEntry5);
+                        backupsList = LoadIndex(backupPath);
+                    
+                        SaveEntry interestEntry5 = FindByName(backupsList,nameSave5);
+                        if (interestEntry5 != null)
+                        {
+                            RestoreBackup(savesPath,backupfolderPath,interestEntry5);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Не существует резервных копий");
                     }
                     break;
 
                 case 6:
                     Console.Write("\nВведите имя сохранения, которое хотите удалить: ");
                     string nameSave6 = Console.ReadLine();
-                    SaveEntry interestEntry6 = FindByName(indexList,nameSave6);
+                    SaveEntry interestEntry6 = FindByName(backupsList,nameSave6);
                     if (interestEntry6 != null)
                     {
                         DeleteSave(savesPath,indexPath,indexList,interestEntry6);

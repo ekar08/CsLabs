@@ -1,12 +1,17 @@
 [
   {
-    "Name": "slot-01",
-    "File": "save-01.json",
-    "UpdatedAt": "2026-04-18T10:15:00"
+    "name": "slot-01",
+    "file": "save-01.json",
+    "updatedAt": "2026-04-18T10:15:00"
   },
   {
-    "Name": "autosave",
-    "File": "autosave.json",
-    "UpdatedAt": "2026-04-20T08:00:00"
+    "name": "slot-02",
+    "file": "save-02.json",
+    "updatedAt": "2026-04-19T21:05:10"
+  },
+  {
+    "name": "autosave",
+    "file": "autosave.json",
+    "updatedAt": "2026-04-20T08:00:00"
   }
 ]
