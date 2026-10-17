@@ -31,7 +31,8 @@ class Program
     {
         string indexPath = "../../../index.json";
         string savesPath = "../../../saves";
-        string backupPath = "../../../backups";
+        string backupfolderPath = "../../../backups";
+        string backupPath = "../../../backup.json";
 
         List<SaveEntry> indexList = LoadIndex(indexPath);
         int choice=0;
@@ -78,7 +79,7 @@ class Program
                     SaveEntry interestEntry4 = FindByName(indexList,nameSave4);
                     if (interestEntry4!=null)
                     {
-                        CreateBackup(savesPath,backupPath,interestEntry4);
+                        CreateBackup(savesPath,backupfolderPath,interestEntry4,backupPath);
                     }
                     break;
 
@@ -88,7 +89,7 @@ class Program
                     SaveEntry interestEntry5 = FindByName(indexList,nameSave5);
                     if (interestEntry5 != null)
                     {
-                        RestoreBackup(savesPath,backupPath,interestEntry5);
+                        RestoreBackup(savesPath,backupfolderPath,interestEntry5);
                     }
                     break;
 
@@ -109,8 +110,8 @@ class Program
     {
         try 
         {
-        List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
-        return indexSave;
+            List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
+            return indexSave;
         }
         catch (FileNotFoundException)
         {
@@ -250,11 +251,21 @@ class Program
         File.WriteAllText($"{indexPath}", user_index);
     }
 
-    static void CreateBackup(string savesDirectory, string backupsDirectory, SaveEntry entry)
+    static void CreateBackup(string savesDirectory, string backupsDirectory, SaveEntry entry, string backupPath)
     {
         SaveData saveData = LoadSave(savesDirectory,entry);
-        string json = JsonConvert.SerializeObject(saveData, Formatting.Indented);
-        File.WriteAllText($"{backupsDirectory}/{entry.File}", json);
+        string json_file = JsonConvert.SerializeObject(saveData, Formatting.Indented);
+        File.WriteAllText($"{backupsDirectory}/{entry.File}", json_file);
+
+        SaveEntry saveBackup = new SaveEntry();
+        saveBackup.Name = entry.Name;
+        saveBackup.File = entry.File;
+        saveBackup.UpdatedAt = DateTime.Now;
+
+        List<SaveEntry> backupsList = new List<SaveEntry>();
+        backupsList.Add(saveBackup);
+        string json_list = JsonConvert.SerializeObject(backupsList, Formatting.Indented);
+        File.WriteAllText(backupPath, json_list);
     }
 
     static void RestoreBackup(string savesDirectory, string backupsDirectory, SaveEntry entry)

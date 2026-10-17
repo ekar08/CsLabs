@@ -1,0 +1,14 @@
+{
+  "Character": "Mira",
+  "Map": "Ashen Coast",
+  "Position": {
+    "X": 128,
+    "Y": 47
+  },
+  "Health": 76,
+  "Inventory": [
+    "iron sword",
+    "healing potion",
+    "old map"
+  ]
+}
