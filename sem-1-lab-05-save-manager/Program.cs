@@ -48,9 +48,6 @@ class Program
             case 3:
                 SaveGame(savesPath,LoadIndex(indexPath)[0],LoadSave(savesPath,LoadIndex(indexPath)[0]));
                 break;
-            case 4:
-                
-
         }
     }
     static List<SaveEntry> LoadIndex(string indexPath)
