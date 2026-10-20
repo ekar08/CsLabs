@@ -4,6 +4,9 @@
 
 internal class Program
 {
+    private static double[] cpuData = new double[20];
+    private static List<double> ramData = new();
+    private static List<double> temData = new();
     private static void Main()
     {
         // Создаём объект, который будет получать данные о состоянии сервера.
@@ -25,27 +28,35 @@ internal class Program
 
         // При желании можно остановить получение данных.
         monitor.Stop();
+        int c=0;
+        foreach(double data in cpuData)
+        {
+            c++;
+            Console.WriteLine($"{c}.{data}");
+        }
     }
 
     private static void OnDataReceived(double cpu, double ram, double temperature)
     {
-        // Этот метод автоматически вызывается библиотекой
-        // каждый раз, когда появляются новые данные.
+        int index = FindLastEmptyIndex(cpuData, out cpuData);
+        cpuData[index]=cpu;
 
-        // cpu — текущая загрузка процессора (в процентах).
-        // ram — использование оперативной памяти (в процентах).
-        // temperature — температура процессора (в градусах Цельсия).
+        Console.WriteLine(cpu);
+    }
 
-        Console.WriteLine($"CPU: {cpu}%");
-        Console.WriteLine($"RAM: {ram}%");
-        Console.WriteLine($"Temperature: {temperature} °C");
-
-        // Вместо этих строк вы можете написать свой код.
-        // Например:
-        // - сохранить значения в массивы;
-        // - обновить график;
-        // - вычислить статистику;
-        // - вывести информацию в другом формате.
+    static int FindLastEmptyIndex(double[] Data_arr, out double[] Data_arr_new)
+    {
+        Data_arr_new = Data_arr;
+        for (int i=19; i>=0; i--)
+        {
+            if (Data_arr[i] == 0)
+            {
+                return i;
+            }
+        }
+        
+        Array.Copy(Data_arr, 1, Data_arr_new, 0, 19);
+        return 18;
     }
 }
 
