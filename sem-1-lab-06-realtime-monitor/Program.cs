@@ -1,4 +1,6 @@
-﻿namespace sem_1_lab_06_realtime_monitor;
+﻿using System.Globalization;
+
+namespace sem_1_lab_06_realtime_monitor;
 
 
 
@@ -28,32 +30,6 @@ internal class Program
 
         // При желании можно остановить получение данных.
         monitor.Stop();
-
-        //просто вывожу массив, чтобы понять, что туда записывается
-        Console.WriteLine("CPU");
-        int c=0;
-        foreach(double data in cpuData)
-        {
-            c++;
-            Console.WriteLine($"{c}.{data}");
-        }
-
-        Console.WriteLine("RAM");
-        int a=0;
-        foreach(double data in ramData)
-        {
-            a++;
-            Console.WriteLine($"{a}.{data}");
-        }
-
-        Console.WriteLine("TEM");
-        int s=0;
-        foreach(double data in temData
-        )
-        {
-            s++;
-            Console.WriteLine($"{s}.{data}");
-        }
     }
 
 
@@ -89,6 +65,24 @@ internal class Program
 
         Array.Copy(Data_arr, 1, Data_arr_new, 0, 19);
         return 18;
+    }
+
+    static void DrawGrafics(double[] Data)
+    {
+        string[][] grafic = new string[21][];
+
+        for (int i=0; i<=21; i++)//столбец
+        {
+            string[] line = new string[21];
+
+            for (int j=0; j<=21; j++)
+            {
+                
+            }
+            grafic[i] = line;
+
+        }
+
     }
 }
 
