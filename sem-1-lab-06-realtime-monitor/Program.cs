@@ -30,6 +30,17 @@ internal class Program
 
         // При желании можно остановить получение данных.
         monitor.Stop();
+
+        string[][] arr = DrawGrafics(cpuData);
+
+        foreach (string[] arr_mini in arr)
+        {
+            foreach (string arr_mini_mini in arr_mini)
+            {
+                Console.Write(arr_mini_mini);
+            }
+            Console.WriteLine();
+        }
     }
 
 
@@ -67,22 +78,25 @@ internal class Program
         return 18;
     }
 
-    static void DrawGrafics(double[] Data)
+    static string[][] DrawGrafics(double[] Data)
     {
         string[][] grafic = new string[21][];
 
-        for (int i=0; i<=21; i++)//столбец
+        for (int i=0; i<=20; i++)//столбец
         {
             string[] line = new string[21];
 
-            for (int j=0; j<=21; j++)
+            for (int j=0; j<=20; j++) //строка
             {
-                
+                line[0]="|";
+                if (i == 20)
+                {
+                    line[j]="__";
+                }
             }
             grafic[i] = line;
-
         }
-
+        return grafic;
     }
 }
 
