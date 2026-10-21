@@ -80,19 +80,24 @@ internal class Program
 
     static string[][] DrawGrafics(double[] Data)
     {
-        string[][] grafic = new string[21][];
+        string[][] grafic = new string[22][];
 
-        for (int i=0; i<=20; i++)//столбец
+        for (int i=0; i<22; i++)//столбец
         {
-            string[] line = new string[21];
+            string[] line = new string[22];
 
-            for (int j=0; j<=20; j++) //строка
+            for (int j=0; j<22; j++) //строка
             {
-                line[0]="|";
+                line[0]=Convert.ToString(i+1);
+                line[1]="|";
                 if (i == 20)
                 {
                     line[j]="__";
                 }
+                //if (i == 21)
+                //{
+                //    line[j]=$" {Convert.ToString(j)}";
+                //}
             }
             grafic[i] = line;
         }
