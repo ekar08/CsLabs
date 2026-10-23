@@ -49,7 +49,6 @@ class Program
                         Console.WriteLine(index_one.Name);
                     break;
 
-<<<<<<< HEAD
                 case 2:
                     Console.Write("\nВведите имя сохранения: ");
                     string nameSave2 = Console.ReadLine();
