@@ -4,7 +4,7 @@ namespace ProgramTests;
 public class Tests
 {
     [Test]
-    public void TestGetIndent()
+    public void TestGetIndent() //GetIndent
     {
         
         lab07.Program._depth = 1;
