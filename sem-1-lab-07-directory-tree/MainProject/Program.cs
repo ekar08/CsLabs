@@ -22,7 +22,7 @@ internal class Program
 
         PrintTree();
 
-        Console.ReadLine();
+        //Console.ReadLine();
     }
 
     private static void PrintTree()
@@ -33,7 +33,7 @@ internal class Program
 
             if (line == "")
             {
-                _lineIndex += 2;
+                _lineIndex += 1; //!
                 continue;
             }
 
@@ -43,7 +43,7 @@ internal class Program
 
                 _lineIndex++;
 
-                return;
+                //return;
             }
 
             if (line.StartsWith("BEGIN "))
@@ -55,10 +55,10 @@ internal class Program
                 _lineIndex++;
                 _depth++;
 
-                PrintTree();
+                //PrintTree();
             }
 
-            _lineIndex++;
+            //_lineIndex++;
         }
     }
 
