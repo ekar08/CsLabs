@@ -1,18 +1,19 @@
 ﻿using System;
 using System.IO;
 
-internal class Program
+namespace lab07;
+public class Program
 {
     // Current line in file
-    private static int _lineIndex;
+    public static int _lineIndex;
 
     // Current nesting level
-    private static int _depth;
+    public static int _depth;
 
     // File content
-    private static string[] _lines = null!;
+    public static string[] _lines = null!;
 
-    private static void Main()
+    public static void Main()
     {
         _lines = File.ReadAllLines("../../../tree.txt");
 
@@ -25,7 +26,7 @@ internal class Program
         Console.ReadLine();
     }
 
-    private static void PrintTree()
+    public static void PrintTree()
     {
         while (_lineIndex < _lines.Length)
         {
@@ -57,7 +58,7 @@ internal class Program
         }
     }
 
-    private static string GetIndent()
+    public static string GetIndent()
     {
         var result = "";
 
