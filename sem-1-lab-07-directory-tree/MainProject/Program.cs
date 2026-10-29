@@ -66,7 +66,7 @@ internal class Program
     {
         var result = "";
 
-        for (var i = 0; i <= _depth; i++)
+        for (var i = 0; i < _depth; i++)
         {
             result += "│ ";
         }
