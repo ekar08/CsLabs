@@ -52,7 +52,7 @@ internal class Program
 
                 Console.Write(GetIndent());
                 Console.WriteLine("├─" + name);
-
+                _lineIndex++;
                 _depth++;
 
                 PrintTree();
