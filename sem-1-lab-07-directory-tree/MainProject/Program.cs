@@ -48,7 +48,7 @@ internal class Program
 
             if (line.StartsWith("BEGIN "))
             {
-                var name = line.Substring(5);
+                var name = line.Substring(6);
 
                 Console.Write(GetIndent());
                 Console.WriteLine("├─" + name);
