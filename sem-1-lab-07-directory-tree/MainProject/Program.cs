@@ -22,7 +22,7 @@ internal class Program
 
         PrintTree();
 
-        //Console.ReadLine();
+        Console.ReadLine();
     }
 
     private static void PrintTree()
@@ -31,9 +31,10 @@ internal class Program
         {
             var line = _lines[_lineIndex].Trim();
 
+            //обрабатывает пустые строки в файле, полезно
             if (line == "")
             {
-                _lineIndex += 1; //!
+                _lineIndex += 1;
                 continue;
             }
 
@@ -42,8 +43,6 @@ internal class Program
                 _depth--;
 
                 _lineIndex++;
-
-                //return;
             }
 
             if (line.StartsWith("BEGIN "))
@@ -54,11 +53,7 @@ internal class Program
                 Console.WriteLine("├─" + name);
                 _lineIndex++;
                 _depth++;
-
-                //PrintTree();
             }
-
-            //_lineIndex++;
         }
     }
 
