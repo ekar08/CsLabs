@@ -110,8 +110,8 @@ class Program
     {
         try 
         {
-        List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
-        return indexSave;
+            List<SaveEntry> indexSave = JsonConvert.DeserializeObject<List<SaveEntry>>(File.ReadAllText(indexPath));
+            return indexSave;
         }
         catch (FileNotFoundException)
         {
@@ -161,20 +161,17 @@ class Program
 
     static SaveEntry FindByName(List<SaveEntry> entries, string name)
     {
-        bool find = false;
         foreach (SaveEntry entry in entries)
         {
             string userNameL = entry.Name.ToLower();
             string nameL = name.ToLower();
             if (userNameL == nameL)
             {
-                find = true;
                 return entry; 
             }  
         }
 
-        if (find==false)
-            Console.WriteLine("Файл не найден");
+        Console.WriteLine("Файл не найден");
         
         return null;
         

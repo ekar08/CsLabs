@@ -14,5 +14,4 @@ public class Tests
         Assert.That(getIndent, Is.EqualTo(my));
     }
 
-    
 }
