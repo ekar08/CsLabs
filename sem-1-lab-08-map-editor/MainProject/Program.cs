@@ -21,6 +21,11 @@ class Program
 
         Map My_Map = LoadMap(path_to_map);
         ShowMap(My_Map);
+
+        Map My_New_Map = CreateMap();
+
+
+        ShowMap(My_New_Map);
     }
 
     static Map LoadMap(string path)
@@ -62,6 +67,31 @@ class Program
             Console.WriteLine();
         }
     }
-    
-    
+
+    static Map CreateMap()
+    {
+        Map New_Map = new Map();
+
+        Console.Write("Введите высоту новой карты: ");
+        New_Map._height = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Введите ширину новой карты: ");
+        New_Map._width = Convert.ToInt32(Console.ReadLine());
+
+        char [,] newShem = new char[New_Map._height,New_Map._width];
+
+        for (int i=0; i<New_Map._height; i++)
+        {
+            string currentString = Console.ReadLine();
+
+            for (int j=0; j<New_Map._width; j++)
+            {
+                newShem[i,j] = currentString[j];
+            }
+        }
+
+        New_Map._scheme = newShem;
+
+        return New_Map;
+    }
+
 }
