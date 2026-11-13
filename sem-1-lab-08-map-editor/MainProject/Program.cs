@@ -14,18 +14,32 @@ class Program
         public char[,] _scheme; 
     }
 
+    struct Player
+    {
+        public Position _pos;
+    }
+
+    struct Position
+    {
+        public int X;
+        public int Y;
+    }
+
     static void Main()
     {
-        string path_to_map = "map.txt";
+        string path_to_map = "save-01.txt";
         LoadMap(path_to_map);
 
         Map My_Map = LoadMap(path_to_map);
         ShowMap(My_Map);
 
-        Map My_New_Map = CreateMap();
+        //Map My_New_Map = CreateMap();
 
 
-        ShowMap(My_New_Map);
+        //ShowMap(My_New_Map);
+
+        Player My_Player = LoadPlayerPos(My_Map);
+        Console.WriteLine($"{My_Player._pos.X}, {My_Player._pos.Y}");
     }
 
     static Map LoadMap(string path)
@@ -93,5 +107,23 @@ class Program
 
         return New_Map;
     }
+ 
+    static Player LoadPlayerPos(Map tempMap)
+    {
+        Player tempPlayer = new Player();
 
+        for (int i=0; i<tempMap._height; i++)
+        {
+            for (int j=0;j<tempMap._width; j++)
+            {
+                if (tempMap._scheme[i, j] == 'P')
+                {
+                    tempPlayer._pos.X = j+1;
+                    tempPlayer._pos.Y = i+1;
+                }
+            }
+        }
+
+        return tempPlayer;
+    }
 }
