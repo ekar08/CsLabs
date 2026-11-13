@@ -30,7 +30,7 @@ class Program
 
     static Map LoadMap(string path)
     {
-        string[] file = File.ReadAllLines($"../../../{path}");
+        string[] file = File.ReadAllLines($"../../../maps/{path}");
         string[] hw = file[0].Split("|");
 
         Map tempMap = new Map();
