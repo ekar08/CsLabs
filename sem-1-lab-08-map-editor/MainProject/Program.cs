@@ -11,7 +11,8 @@ class Program
     {
         public int _width;
         public int _height;
-        public char[,] _scheme; 
+        public char[,] _scheme;
+        public Player _player;
     }
 
     struct Player
@@ -40,6 +41,10 @@ class Program
 
         Player My_Player = LoadPlayerPos(My_Map);
         Console.WriteLine($"{My_Player._pos.X}, {My_Player._pos.Y}");
+
+
+        MovePlayer(My_Map);
+        ShowMap(My_Map);
     }
 
     static Map LoadMap(string path)
@@ -49,7 +54,7 @@ class Program
 
         Map tempMap = new Map();
 
-        
+        tempMap._player = LoadPlayerPos(tempMap);
         tempMap._width = Convert.ToInt32(hw[0]);
         tempMap._height = Convert.ToInt32(hw[1]);
 
@@ -82,6 +87,7 @@ class Program
         }
     }
 
+// возможно чтобы сохранять это разделение на бизнес/вывод нужно сделать один метод, который будет предлагать делать ввод, а другой уже с введенными данными работать
     static Map CreateMap()
     {
         Map New_Map = new Map();
@@ -126,4 +132,37 @@ class Program
 
         return tempPlayer;
     }
+
+
+// добавить исключение на случай выход за координаты
+    static void MovePlayer(Map tempMap)
+    {
+        Player tempPlayer = LoadPlayerPos(tempMap);
+        DeletePlayer(tempMap, tempPlayer);
+
+        Console.Write("Введите новые координаты игрока:\nX:");
+        tempPlayer._pos.X = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Y:");
+        tempPlayer._pos.Y = Convert.ToInt32(Console.ReadLine());
+
+        while (tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] == 'W' || tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] == '#')
+        {
+            Console.WriteLine($"Игрок не может переместиться в \"{tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1]}\"");
+
+            Console.Write("Введите новые координаты игрока:\nX:");
+            tempPlayer._pos.X = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Y:");
+            tempPlayer._pos.Y = Convert.ToInt32(Console.ReadLine());
+        }
+
+        tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] = 'P';
+    }
+
+    static void DeletePlayer(Map tempMap, Player tempPlayer)
+    {
+        tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] = '.';
+    }
+
+
 }
+
