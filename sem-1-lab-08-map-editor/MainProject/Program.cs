@@ -29,17 +29,18 @@ class Program
     static void Main()
     {
         string path_to_map = "save-01.txt";
-        
+
+        Map MyMap = new Map();
         try
         {
-            LoadMap(path_to_map);
+            MyMap = LoadMap(path_to_map);
         }
         catch (FileNotFoundException e)
         {
             Console.WriteLine(e.Message);
         }
 
-        
+        ShowMap(MyMap);
     }
 
     static Map LoadMap(string path)
@@ -52,7 +53,7 @@ class Program
         }
 
         string[] file = File.ReadAllLines(ful_path);
-
+        
         string[] hw = file[0].Split("|");
 
         Map tempMap = new Map();
@@ -63,10 +64,10 @@ class Program
 
         char[,] shem = new char[tempMap._height,tempMap._width];
 
-        for (int i=1; i<file.Length; i++)
+        for (int i=1; i<tempMap._height+1; i++)
         {
             string current = file[i];
-            for (int j=0; j<current.Length; j++)
+            for (int j=0; j<tempMap._width; j++)
             {
                 shem[i-1,j] = current[j];
             }
