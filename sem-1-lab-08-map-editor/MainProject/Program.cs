@@ -5,7 +5,12 @@ namespace MainProject;
 
 class Program
 {
-    
+    public class MapNotFormatException : Exception
+    {
+        public MapNotFormatException(string message) : base(message)
+        {
+        }
+    }
 
     class Map()
     {
@@ -39,6 +44,10 @@ class Program
         {
             Console.WriteLine(e.Message);
         }
+        catch (MapNotFormatException e)
+        {
+            Console.WriteLine(e.Message);
+        }
 
         ShowMap(MyMap);
     }
@@ -53,7 +62,11 @@ class Program
         }
 
         string[] file = File.ReadAllLines(ful_path);
-        
+
+        if (file[0].Contains("|") == false)
+        {
+            throw new MapNotFormatException("Неверный формат карты");
+        }
         string[] hw = file[0].Split("|");
 
         Map tempMap = new Map();
@@ -64,6 +77,8 @@ class Program
 
         char[,] shem = new char[tempMap._height,tempMap._width];
 
+
+// возможно было бы лучше выкидывать exception
         for (int i=1; i<tempMap._height+1; i++)
         {
             string current = file[i];
