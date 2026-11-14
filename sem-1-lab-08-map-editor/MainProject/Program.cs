@@ -29,27 +29,30 @@ class Program
     static void Main()
     {
         string path_to_map = "save-01.txt";
-        LoadMap(path_to_map);
+        
+        try
+        {
+            LoadMap(path_to_map);
+        }
+        catch (FileNotFoundException e)
+        {
+            Console.WriteLine(e.Message);
+        }
 
-        Map My_Map = LoadMap(path_to_map);
-        ShowMap(My_Map);
-
-        //Map My_New_Map = CreateMap();
-
-
-        //ShowMap(My_New_Map);
-
-        Player My_Player = LoadPlayerPos(My_Map);
-        Console.WriteLine($"{My_Player._pos.X}, {My_Player._pos.Y}");
-
-
-        MovePlayer(My_Map);
-        ShowMap(My_Map);
+        
     }
 
     static Map LoadMap(string path)
-    {
-        string[] file = File.ReadAllLines($"../../../maps/{path}");
+    {   
+        string ful_path = $"../../../maps/{path}";
+
+        if (File.Exists(ful_path) == false)
+        {
+            throw new FileNotFoundException("Файл не найден");
+        }
+
+        string[] file = File.ReadAllLines(ful_path);
+
         string[] hw = file[0].Split("|");
 
         Map tempMap = new Map();
@@ -138,7 +141,7 @@ class Program
     static void MovePlayer(Map tempMap)
     {
         Player tempPlayer = LoadPlayerPos(tempMap);
-        DeletePlayer(tempMap, tempPlayer);
+        DeletePlayer(tempMap);
 
         Console.Write("Введите новые координаты игрока:\nX:");
         tempPlayer._pos.X = Convert.ToInt32(Console.ReadLine());
@@ -158,9 +161,9 @@ class Program
         tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] = 'P';
     }
 
-    static void DeletePlayer(Map tempMap, Player tempPlayer)
+    static void DeletePlayer(Map tempMap)
     {
-        tempMap._scheme[tempPlayer._pos.Y-1,tempPlayer._pos.X-1] = '.';
+        tempMap._scheme[tempMap._player._pos.Y-1,tempMap._player._pos.X-1] = '.';
     }
 
 
