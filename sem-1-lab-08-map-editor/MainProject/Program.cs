@@ -50,6 +50,10 @@ class Program
         }
 
         ShowMap(MyMap);
+        
+        MovePlayer(MyMap);
+
+        ShowMap(MyMap);
     }
 
     static Map LoadMap(string path)
@@ -71,24 +75,11 @@ class Program
 
         Map tempMap = new Map();
 
-        tempMap._player = LoadPlayerPos(tempMap);
         tempMap._width = Convert.ToInt32(hw[0]);
         tempMap._height = Convert.ToInt32(hw[1]);
-
-        char[,] shem = new char[tempMap._height,tempMap._width];
-
-
-// возможно было бы лучше выкидывать exception
-        for (int i=1; i<tempMap._height+1; i++)
-        {
-            string current = file[i];
-            for (int j=0; j<tempMap._width; j++)
-            {
-                shem[i-1,j] = current[j];
-            }
-        }
-
-        tempMap._scheme = shem;
+        tempMap = LoadShemeMap(tempMap,file);
+        tempMap._player = LoadPlayerPos(tempMap);
+        
         return tempMap;
     }
 
@@ -152,11 +143,28 @@ class Program
         return tempPlayer;
     }
 
+    static Map LoadShemeMap(Map tempMap, string[] tempFile)
+    {
+        char[,] shem = new char[tempMap._height,tempMap._width];
 
-// добавить исключение на случай выход за координаты
+
+        // возможно было бы лучше выкидывать exception, а то никто и не узнает, что карта обрезана
+        for (int i=1; i<tempMap._height+1; i++)
+        {
+            string current = tempFile[i];
+            for (int j=0; j<tempMap._width; j++)
+            {
+                shem[i-1,j] = current[j];
+            }
+        }
+        tempMap._scheme = shem;
+        return tempMap;
+    }
+
+// добавить исключение на случай выхода за координаты
     static void MovePlayer(Map tempMap)
     {
-        Player tempPlayer = LoadPlayerPos(tempMap);
+        Player tempPlayer = tempMap._player;
         DeletePlayer(tempMap);
 
         Console.Write("Введите новые координаты игрока:\nX:");
