@@ -1,6 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 using System.Reflection.Metadata;
-
+using Newtonsoft.Json;
 namespace MainProject;
 
 class Program
@@ -20,6 +20,13 @@ class Program
         public Player _player;
     }
 
+    class MapData
+    {
+        public string Name;
+        public string File;
+        public DateTime UpdatedAt;
+    }
+
     struct Player
     {
         public Position _pos;
@@ -33,12 +40,14 @@ class Program
 
     static void Main()
     {
-        string path_to_map = "save-01.txt";
 
+        string path_to_index = "index.json";
+
+        List<MapData> AllMyMaps = LoadDataMap(path_to_index);
         Map MyMap = new Map();
         try
         {
-            MyMap = LoadMap(path_to_map);
+            MyMap = LoadMap(AllMyMaps[0].File);
         }
         catch (FileNotFoundException e)
         {
@@ -49,11 +58,26 @@ class Program
             Console.WriteLine(e.Message);
         }
 
-        ShowMap(MyMap);
         
-        MovePlayer(MyMap);
+    }
 
-        ShowMap(MyMap);
+    static List<MapData> LoadDataMap(string dataMapPath)
+    {
+        dataMapPath = $"../../../{dataMapPath}";
+        try 
+        {
+            List<MapData> indexSave = JsonConvert.DeserializeObject<List<MapData>>(File.ReadAllText(dataMapPath));
+            return indexSave;
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("Файл не найден");
+        }
+        catch (JsonReaderException)
+        {
+            Console.WriteLine("JSON некорректен");
+        }
+        return null;
     }
 
     static Map LoadMap(string path)
